@@ -7,6 +7,9 @@ int main()
 	int N = 0, j = 0, k = 0, insertArr = 1;
 	int flag = 0;
 	int len;
+
+
+	cout << "배열의 크기를 입력하세요 : ";
 	scanf_s("%d", &N);
 
 	int** arr = new int*[N];
