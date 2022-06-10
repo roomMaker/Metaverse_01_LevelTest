@@ -25,7 +25,7 @@ int main()
 		result[i] = 1 + rand() % maxNum;
 		for (int j = 0; j < i; j++)
 		{
-			// 기존에 없던 숫자면 true 반환
+			// 지금까지 들어간 수들과 비교하여 기존에 없던 숫자면 true 반환
 			if (result[i] != result[j])
 			{
 				isInsert = true;

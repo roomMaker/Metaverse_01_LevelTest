@@ -10,6 +10,7 @@ int main()
 	// 도형과 수를 각각 분리
     const char* shape[4] = {"♠", "♣", "♥", "◆"};
 	const char* cardNum[13] = {"1","2","3","4","5","6","7","8","9","10","J","Q","K"};
+	// 도형과 수를 각각 랜덤하게 받아와서 출력하기 위한 배열
 	const char* randShape[14] = {0};
 	const char* randCardNum[14] = { 0 };
 	int joker;
@@ -30,7 +31,7 @@ int main()
 		joker = rand() % 53;
 		for (int j = 0; j < i; j++)
 		{
-			// 기존에 없던 카드면 true 반환
+			// 지금까지 들어간 수를 비교해서 기존에 없던 카드면 true 반환
 			if (randShape[i] != randShape[j] || randCardNum[i] != randCardNum[j])
 			{
 				isInsert = true;
