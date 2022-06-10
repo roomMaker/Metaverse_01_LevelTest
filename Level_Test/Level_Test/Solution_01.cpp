@@ -3,6 +3,8 @@
 void swap(int* a, int* b);
 void swap(int& a, int& b);
 
+
+// 스왑~
 void swap(int* a, int* b)
 {
     int temp = 0;

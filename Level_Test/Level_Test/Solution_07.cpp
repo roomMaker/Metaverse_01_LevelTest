@@ -9,6 +9,7 @@ int main()
 	int bingo[5][5] = { 0 };
 	bool isInsert = true;
 
+	// 먼저 1차원 배열을 이용해 bingo 배열에 중복없이 넣을 랜덤 수를 저장해줄 배열생성 
 	for (int i = 0; i < 25;)
 	{
 		saveRandNum[i] = 1 + rand() % 25;
@@ -31,6 +32,7 @@ int main()
 		}
 	}
 
+	// 미리 만들어준 랜덤 배열을 빙고판에 넣기
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 5; j++)
@@ -45,6 +47,7 @@ int main()
 	while (1)
 	{
 		bingoCount = 0;
+		// while 및 cls로 동일한 공간에 반복 출력하면서 입력한 수와 빙고판에 남아있는 수가 같으면 0으로 변환
 		for (int i = 0; i < 5; i++)
 		{
 			for (int j = 0; j < 5; j++)
@@ -57,6 +60,7 @@ int main()
 			}
 			cout << endl << endl;
 		}
+		// 빙고 조건... (하드코딩)
 		for (int i = 0; i < 5; i++)
 		{
 			if (bingo[i][0] == 0 && bingo[i][1] == 0 && bingo[i][2] == 0 && bingo[i][3] == 0 && bingo[i][4] == 0)

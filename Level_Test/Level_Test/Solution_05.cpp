@@ -11,6 +11,7 @@ int main()
 	cout << "생성숫자 : ";
 	cin >> numCount;
 
+	// 최대값보다 생성숫자가 많으면 원하는 결과가 나오지 않음
 	if (maxNum < numCount)
 	{
 		cout << "생성불가";
@@ -35,6 +36,7 @@ int main()
 				break;
 			}
 		}
+		// 기존에 없던 숫자면 배열에 저장
 		if (isInsert)
 		{
 			cout << result[i] << endl;
