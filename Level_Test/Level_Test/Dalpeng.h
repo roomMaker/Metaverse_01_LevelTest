@@ -6,7 +6,7 @@ using namespace std;
 
 #define NOT_VISITED 0
 
-class Snail
+class SnailArray
 {
 
 public :
@@ -66,7 +66,7 @@ public :
 			for (int c = 0; c < _size; c++)
 			{
 				cout << _arr[r * _size + c] << "\t";
-			}
+			}	
 			cout << "\n";
 		}
 	}
