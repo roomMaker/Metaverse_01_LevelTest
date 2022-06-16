@@ -1,96 +1,173 @@
 #include <iostream>
-
 using namespace std;
+
+#define BLANK 0;
 
 int main()
 {
-	srand(time(NULL));
-	int saveRandNum[25] = { 0 };
-	int bingo[5][5] = { 0 };
-	bool isInsert = true;
+	// 1. 빙고 판을 초기화
 
-	// 먼저 1차원 배열을 이용해 bingo 배열에 중복없이 넣을 랜덤 수를 저장해줄 배열생성 
-	for (int i = 0; i < 25;)
+	srand(time(NULL));
+	int isUsed[26] = { false };
+	int board[5][5];
+	for (int r = 0; r < 5; r++)
 	{
-		saveRandNum[i] = 1 + rand() % 25;
-		for (int j = 0; j < i; j++)
+		for (int c = 0; c < 5; c++)
 		{
-			if (saveRandNum[i] != saveRandNum[j])
+			int N = 0;
+			do
 			{
-				isInsert = true;
+				N = 1 + rand() % 25;
+			} while (isUsed[N]);
+			board[r][c] = N;
+			isUsed[N] = true;
+		}
+
+	}
+
+	int bingoCount = 0;
+	while (bingoCount < 12)
+	{
+		system("cls");
+
+		// 2. 빙고 현황 출력
+		for (int r = 0; r < 5; r++)
+		{
+			for (int c = 0; c < 5; c++)
+			{
+				if (board[r][c] == 0) //BLANK 쓰면 =를 의도했냐고 되물음
+				{
+					cout << "\t";
+				}
+				else
+				{
+					cout << board[r][c] << "\t";
+				}
 			}
-			else
+			cout << endl;
+		}
+		cout << "현재 " << bingoCount << "줄의 빙고가 완성되었습니다.\n";
+
+		// 3. 사용자로부터 입력을 받음
+		cout << "숫자를 입력해주세요 : ";
+		int input;
+		cin >> input;
+
+		// 3-1. 오입력이 들어왔다면
+		if (input < 0 || input > 25)
+		{
+			// 2번부터 다시 시작한다.
+			continue;
+		}
+
+		// 4. 빙고판을 최신화 => 해당 숫자를 지워준다.
+		for (int r = 0; r < 5; r++)
+		{
+			bool isExit = false;
+			for (int c = 0; c < 5; c++)
 			{
-				isInsert = false;
+				if (board[r][c] == input)
+				{
+					board[r][c] = BLANK;
+
+					isExit = true;
+				}
+			}
+
+			if (isExit)
+			{
 				break;
 			}
 		}
-		if (isInsert)
-		{
-			isInsert = false;
-			i++;
-		}
-	}
 
-	// 미리 만들어준 랜덤 배열을 빙고판에 넣기
-	for (int i = 0; i < 5; i++)
-	{
-		for (int j = 0; j < 5; j++)
-		{
-			bingo[i][j] = saveRandNum[j + (i * 5)];
-		}
-	}
+		// 5. 빙고 개수를 센다.
+		// : 가로의 모든 숫자를 지운 것
 
-	int inputNum = 0;
-	int bingoCount = 0;
+		int count = 0;
 
-	while (1)
-	{
-		bingoCount = 0;
-		// while 및 cls로 동일한 공간에 반복 출력하면서 입력한 수와 빙고판에 남아있는 수가 같으면 0으로 변환
-		for (int i = 0; i < 5; i++)
+		for (int r = 0; r < 5; r++)
 		{
-			for (int j = 0; j < 5; j++)
+			bool isBingo = true;
+			for (int c = 0; c < 5; c++)
 			{
-				if (inputNum == bingo[i][j])
+				if (board[r][c] != 0)
 				{
-					bingo[i][j] = 0;
+					isBingo = false;
+					break;
 				}
-				cout << bingo[i][j] << '\t';
 			}
-			cout << endl << endl;
-		}
-		// 빙고 조건... (하드코딩)
-		for (int i = 0; i < 5; i++)
-		{
-			if (bingo[i][0] == 0 && bingo[i][1] == 0 && bingo[i][2] == 0 && bingo[i][3] == 0 && bingo[i][4] == 0)
+
+			if (isBingo)
 			{
-				++bingoCount;
+				++count;
 			}
-			if (bingo[0][i] == 0 && bingo[1][i] == 0 && bingo[2][i] == 0 && bingo[3][i] == 0 && bingo[4][i] == 0)
+		}
+		//board[0][0] / board[0][1] / ... board[0][4]
+
+		// : 세로의 모든 숫자를 지운 것
+
+		for (int r = 0; r < 5; r++)
+		{
+			bool isBingo = true;
+			for (int c = 0; c < 5; c++)
 			{
-				++bingoCount;
+				if (board[c][r] != 0)
+				{
+					isBingo = false;
+					break;
+				}
+			}
+			if (isBingo)
+			{
+				++count;
 			}
 		}
-		if (bingo[0][0] == 0 && bingo[1][1] == 0 && bingo[2][2] == 0 && bingo[3][3] == 0 && bingo[4][4] == 0)
+
+		// : 대각선의 모든 숫자를 지운 것
+
+		// board[0][0] / [1][1] / [2][2] / [3][3] / [4][4]
+
 		{
-			++bingoCount;
+			bool isBingo = true;
+
+			for (int i = 0; i < 5; i++)
+			{
+				if (board[i][i] != 0)
+				{
+					isBingo = false;
+					break;
+				}
+			}
+
+			if (isBingo)
+			{
+				count++;
+			}
+
 		}
-		if (bingo[0][4] == 0 && bingo[1][3] == 0 && bingo[2][2] == 0 && bingo[3][1] == 0 && bingo[4][0] == 0)
+
+		// [0][4] / [1][3] / [2][2] / [3][1] / [4][0]
 		{
-			++bingoCount;
+			bool isBingo = true;
+
+			for (int i = 0; i < 5; i++)
+			{
+				if (board[i][4 - i] != 0)
+				{
+					isBingo = false;
+					break;
+				}
+			}
+
+			if (isBingo)
+			{
+				count++;
+			}
+
 		}
-		if (bingoCount == 12)
-		{
-			break;
-		}
-		cout << "현재 " << bingoCount << "줄의 빙고가 완성되었습니다."<< endl;
-		cout << "숫자를 입력해주세요 : ";
-		scanf_s("%d", &inputNum);
-		system("cls");
-		
+
+		bingoCount = count;
 	}
-	
-	cout << "BINGO!!!!";
-	return 0;
-}	
+	// 6. 2번부터 다시 반복한다.
+
+}
